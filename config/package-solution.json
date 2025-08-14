@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "boton-personalizaco-client-side-solution",
+    "id": "68032c42-e9b0-4554-b0d0-3d133576d069",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "BotonPersonalizaco description"
+      },
+      "longDescription": {
+        "default": "BotonPersonalizaco description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "boton-personalizaco Feature",
+        "description": "The feature that activates elements of the boton-personalizaco solution.",
+        "id": "dfdca0fb-7404-4488-9fee-342545f27d23",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/boton-personalizaco.sppkg"
+  }
+}
