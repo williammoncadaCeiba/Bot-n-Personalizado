@@ -22,6 +22,9 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
     const buttonColor = this.properties.buttonColor || '#5013c2ff';
     // MODIFICACIÓN: Se añade un ID único al elemento 'a' para poder seleccionarlo fácilmente después.
     const buttonId = `custom-button-${this.instanceId}`;
+    
+    // (Parametro Nativo de ToolTip)
+    //title="Haz clic para copiar el enlace del documento"
 
     this.domElement.innerHTML = `
       <div class="${styles.buttonContainer}">
@@ -34,7 +37,6 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
                 data-interception="off"
                 class="${styles.customButton}"
                 style="background-color: ${buttonColor};"
-                title="Haz clic para copiar el enlace del documento"
               >
                 ${safeButtonText}
               </a>`
@@ -55,6 +57,41 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
 
     // MODIFICACIÓN: Se llama a una nueva función para añadir el detector de eventos de clic al botón.
     this._setButtonEventListener(buttonId);
+    this._initTooltip(buttonId, "Haz clic para copiar el enlace del documento");
+  }
+
+  private _initTooltip(buttonId: string, tooltipText: string): void {
+    const button = this.domElement.querySelector(`#${buttonId}`);
+    if (!button) return;
+
+    // Crear elemento tooltip
+    const tooltip = document.createElement('div');
+    tooltip.textContent = tooltipText;
+    tooltip.style.position = 'fixed';
+    tooltip.style.background = '#333';
+    tooltip.style.color = '#fff';
+    tooltip.style.padding = '6px 8px';
+    tooltip.style.borderRadius = '6px';
+    tooltip.style.fontSize = '12px';
+    tooltip.style.pointerEvents = 'none';
+    tooltip.style.whiteSpace = 'nowrap';
+    tooltip.style.zIndex = '9999';
+    tooltip.style.opacity = '0';
+    tooltip.style.transition = 'opacity 0.1s ease';
+    document.body.appendChild(tooltip);
+
+    button.addEventListener('mouseenter', () => {
+      tooltip.style.opacity = '1';
+    });
+
+    button.addEventListener('mouseleave', () => {
+      tooltip.style.opacity = '0';
+    });
+
+    button.addEventListener('mousemove', (e: MouseEvent) => {
+      tooltip.style.left = `${e.clientX + 12}px`; // 12px a la derecha del cursor
+      tooltip.style.top = `${e.clientY + 12}px`; // 12px debajo del cursor
+    });
   }
 
   private _showToast(message: string): void {
