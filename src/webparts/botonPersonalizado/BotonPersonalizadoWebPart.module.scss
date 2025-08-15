@@ -1,34 +1,43 @@
-@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
-
-.botonPersonalizado {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
-}
-
-.welcome {
+// Contenedor principal para centrar el botón
+.buttonContainer {
+  padding: 20px 0;
   text-align: center;
 }
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
+// Estilos del botón personalizable
+.customButton {
+  display: inline-block;
+  padding: 12px 24px;
+  color: #ffffff; // Color de texto blanco para un buen contraste
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none; // No necesitamos borde si tenemos color de fondo
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, opacity 0.2s;
+  text-align: center;
+
+  &:hover {
+    opacity: 0.85;
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  // Estilo al oprimir el botón
+  &:active {
+    transform: scale(0.96);
+    opacity: 1;
+  }
 }
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
-
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
-    }
-  }
+// Estilo para el mensaje que se muestra si el botón no está configurado
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background-color: #f3f2f1;
+  border: 1px dashed #605e5c;
+  color: #323130;
 }
