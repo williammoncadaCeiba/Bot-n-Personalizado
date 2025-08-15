@@ -34,16 +34,50 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
                 data-interception="off"
                 class="${styles.customButton}"
                 style="background-color: ${buttonColor};"
-               >
+                title="Haz clic para copiar el enlace del documento"
+              >
                 ${safeButtonText}
-               </a>`
+              </a>`
             : `<div class="${styles.placeholder}">Por favor, configure el botón en el panel de propiedades.</div>`
         }
       </div>`;
 
+      // Contenedor de toast
+      if (!document.querySelector('#custom-toast-container')) {
+        const toastContainer = document.createElement('div');
+        toastContainer.id = 'custom-toast-container';
+        toastContainer.style.position = 'fixed';
+        toastContainer.style.bottom = '20px';
+        toastContainer.style.right = '20px';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+      }
+
     // MODIFICACIÓN: Se llama a una nueva función para añadir el detector de eventos de clic al botón.
     this._setButtonEventListener(buttonId);
   }
+
+  private _showToast(message: string): void {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.background = '#4caf50';
+    toast.style.color = '#fff';
+    toast.style.padding = '10px 16px';
+    toast.style.borderRadius = '6px';
+    toast.style.marginTop = '8px';
+    toast.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+    toast.style.opacity = '1';
+    toast.style.transition = 'opacity 0.5s ease';
+    
+    const container = document.querySelector('#custom-toast-container');
+    container?.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 500);
+    }, 2000);
+  }
+
 
   // MODIFICACIÓN: Se crea una nueva función privada para manejar la lógica del clic.
   private _setButtonEventListener(buttonId: string): void {
@@ -61,6 +95,12 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
         navigator.clipboard.writeText(this.properties.buttonLink).then(() => {
           // MODIFICACIÓN: Esto se ejecuta si el texto se copió correctamente.
           console.log('Enlace copiado al portapapeles:', this.properties.buttonLink);
+
+          // Mostrar alerta informativa (ALERTA NATIVA)
+          //alert('✅ El enlace ha sido copiado al portapapeles');
+
+          // Mostrar alerta informativa (ALERTA PERSONALIZADA)
+          this._showToast('✅ El enlace ha sido copiado al portapapeles');
           
           // MODIFICACIÓN: Una vez copiado, se abre el enlace en una nueva pestaña, que era el comportamiento original.
           window.open(this.properties.buttonLink, '_blank');
