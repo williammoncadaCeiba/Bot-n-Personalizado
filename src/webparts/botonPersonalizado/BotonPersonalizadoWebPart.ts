@@ -19,7 +19,7 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
   public render(): void {
     const safeButtonText = escape(this.properties.buttonText);
     const safeButtonLink = this.properties.buttonLink ? encodeURI(this.properties.buttonLink) : '#';
-    const buttonColor = this.properties.buttonColor || '#1d1ad3ff';
+    const buttonColor = this.properties.buttonColor || '#5013c2ff';
     // MODIFICACIÓN: Se añade un ID único al elemento 'a' para poder seleccionarlo fácilmente después.
     const buttonId = `custom-button-${this.instanceId}`;
 
