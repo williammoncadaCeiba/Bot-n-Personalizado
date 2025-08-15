@@ -1,13 +1,13 @@
 // Contenedor principal para centrar el botón
 .buttonContainer {
-    padding: 5px 8px 5px 8px;
-    max-width: 190px;
+    //padding: 5px 8px 5px 8px;
+    max-width: auto;
     //max-width: auto;
 }
 
 // Estilos del botón personalizable
 .customButton {
-  display: inline-block;
+  display: flex;
   padding: 12px 24px;
   color: #ffffff; // Color de texto blanco para un buen contraste
   text-decoration: none;
@@ -18,6 +18,10 @@
   cursor: pointer;
   transition: transform 0.1s ease-in-out, opacity 0.2s;
   text-align: center;
+  min-height: 42px;
+  min-width: -webkit-fill-available;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     opacity: 0.85;
