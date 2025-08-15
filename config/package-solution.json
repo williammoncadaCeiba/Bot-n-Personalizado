@@ -3,7 +3,7 @@
   "solution": {
     "name": "boton-personalizaco-client-side-solution",
     "id": "68032c42-e9b0-4554-b0d0-3d133576d069",
-    "version": "1.0.0.5",
+    "version": "1.0.0.6",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

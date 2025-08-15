@@ -19,7 +19,9 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
   public render(): void {
     const safeButtonText = escape(this.properties.buttonText);
     const safeButtonLink = this.properties.buttonLink ? encodeURI(this.properties.buttonLink) : '#';
-    const buttonColor = this.properties.buttonColor || '#0078d4';
+    const buttonColor = this.properties.buttonColor || '#1d1ad3ff';
+    // MODIFICACIÓN: Se añade un ID único al elemento 'a' para poder seleccionarlo fácilmente después.
+    const buttonId = `custom-button-${this.instanceId}`;
 
     this.domElement.innerHTML = `
       <div class="${styles.buttonContainer}">
@@ -27,6 +29,7 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
           this.properties.buttonText && this.properties.buttonLink
             ? `<a
                 href="${safeButtonLink}"
+                id="${buttonId}"
                 target="_blank"
                 data-interception="off"
                 class="${styles.customButton}"
@@ -37,15 +40,44 @@ export default class BotonPersonalizadoWebPart extends BaseClientSideWebPart<IBo
             : `<div class="${styles.placeholder}">Por favor, configure el botón en el panel de propiedades.</div>`
         }
       </div>`;
+
+    // MODIFICACIÓN: Se llama a una nueva función para añadir el detector de eventos de clic al botón.
+    this._setButtonEventListener(buttonId);
+  }
+
+  // MODIFICACIÓN: Se crea una nueva función privada para manejar la lógica del clic.
+  private _setButtonEventListener(buttonId: string): void {
+    // MODIFICACIÓN: Se busca el botón en el DOM usando el ID que le asignamos.
+    const button = this.domElement.querySelector(`#${buttonId}`);
+    
+    // MODIFICACIÓN: Se comprueba si el botón existe para evitar errores.
+    if (button) {
+      // MODIFICACIÓN: Se añade un "escuchador" para el evento 'click'.
+      button.addEventListener('click', (event) => {
+        // MODIFICACIÓN: Se previene el comportamiento por defecto del enlace (que es solo navegar).
+        event.preventDefault();
+        
+        // MODIFICACIÓN: Se accede a la API del portapapeles del navegador.
+        navigator.clipboard.writeText(this.properties.buttonLink).then(() => {
+          // MODIFICACIÓN: Esto se ejecuta si el texto se copió correctamente.
+          console.log('Enlace copiado al portapapeles:', this.properties.buttonLink);
+          
+          // MODIFICACIÓN: Una vez copiado, se abre el enlace en una nueva pestaña, que era el comportamiento original.
+          window.open(this.properties.buttonLink, '_blank');
+        }).catch(err => {
+          // MODIFICACIÓN: Esto se ejecuta si hubo un error al copiar (por ejemplo, por permisos del navegador).
+          console.error('Error al copiar al portapapeles: ', err);
+
+          // MODIFICACIÓN: Aunque falle el copiado, igualmente se intenta abrir el enlace para no perder la funcionalidad principal.
+          window.open(this.properties.buttonLink, '_blank');
+        });
+      });
+    }
   }
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
-  
-  // Las advertencias de lint que viste en la consola se refieren a los 'any' de esta línea.
-  // No son la causa del error, pero es una buena práctica ser más específico si es posible.
-  // Lo importante es que esta función ahora funcionará gracias al .bind(this).
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
