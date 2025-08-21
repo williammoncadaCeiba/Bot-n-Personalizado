@@ -8,7 +8,7 @@
 // Estilos del botón personalizable
 .customButton {
   display: flex;
-  padding: 12px 24px;
+  padding: 12px 20px;
   color: #ffffff; // Color de texto blanco para un buen contraste
   text-decoration: none;
   font-size: 14px;
@@ -17,10 +17,10 @@
   border: none; // No necesitamos borde si tenemos color de fondo
   cursor: pointer;
   transition: transform 0.1s ease-in-out, opacity 0.2s;
-  text-align: center;
+  text-align: left;
   min-height: 38px;
   min-width: -webkit-fill-available;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
   &:hover {
